@@ -69,13 +69,15 @@ jobs:
 
       - name: Create or update Lambda
         run: |
-          if aws lambda get-function --function-name  ${{ env.LAMBDA_NAME }} >/dev/null 2>&1 ; then
+          if aws lambda get-function --function-name calculator-app >/dev/null 2>&1; then
+            echo "Lambda exists. Updating code..."
 
             aws lambda update-function-code \
               --function-name ${{ env.LAMBDA_NAME }} \
               --zip-file fileb://function.zip
 
           else
+            echo "Lambda doesn't exist. Creating..."
 
             aws lambda create-function \
               --function-name ${{ env.LAMBDA_NAME }} \
