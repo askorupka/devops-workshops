@@ -65,7 +65,8 @@ jobs:
 
       - name: Prepare Lambda package
         run: |
-          zip function.zip app/calculator.py
+          cp app/calculator.py lambda_function.py
+          zip function.zip lambda_function.py
 
       - name: Create or update Lambda
         run: |
@@ -85,7 +86,7 @@ jobs:
               --function-name ${{ env.LAMBDA_NAME }} \
               --zip-file fileb://function.zip \
               --role arn:aws:iam::350469506175:role/service-role/calculator-app-role-7swjqypm \
-              --handler calculator.lambda_handler \
+              --handler lambda_function.lambda_handler \
               --runtime python3.13
 
             echo "Lambda created!"
