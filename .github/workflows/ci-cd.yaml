@@ -72,6 +72,7 @@ jobs:
           aws lambda create-function \
             --function-name ${{ env.LAMBDA_NAME }} \
             --zip-file fileb://function.zip
+            --role arn:aws:iam::350469506175:role/service-role/calculator-app-role-7swjqypm
 
       - name: Update Lambda code
         run: |
