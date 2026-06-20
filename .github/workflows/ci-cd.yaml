@@ -94,3 +94,17 @@ jobs:
           fi
 
 
+      - name: Create function URL
+        run: |
+
+          if ! aws lambda get-function-url-config \
+            --function-name ${{ env.LAMBDA_NAME }} >/dev/null 2>&1; then
+
+            aws lambda create-function-url-config \
+              --function-name ${{ env.LAMBDA_NAME }} \
+              --auth-type NONE
+
+          fi
+          
+
+
