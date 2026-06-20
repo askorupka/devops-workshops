@@ -61,8 +61,7 @@ jobs:
 
       - name: Prepare Lambda package
         run: |
-          cp app/calculator.py lambda_function.py
-          zip function.zip lambda_function.py
+          zip app/calculator.py lambda_function.py
       
       - name: Update Lambda code
         run: |
