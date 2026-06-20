@@ -67,18 +67,23 @@ jobs:
         run: |
           zip function.zip app/calculator.py
 
-      - name: Create Lambda
+      - name: Create or update Lambda
         run: |
-          aws lambda create-function \
-            --function-name ${{ env.LAMBDA_NAME }} \
-            --zip-file fileb://function.zip \
-            --role arn:aws:iam::350469506175:role/service-role/calculator-app-role-7swjqypm \
-            --handler calculator.lambda_handler \
-            --runtime python3.13
+          if aws lambda get-function --function-name  ${{ env.LAMBDA_NAME }} >/dev/null 2>&1 ; then
 
-      - name: Update Lambda code
-        run: |
-          aws lambda update-function-code \
-            --function-name ${{ env.LAMBDA_NAME }} \
-            --zip-file fileb://function.zip
+            aws lambda update-function-code \
+              --function-name ${{ env.LAMBDA_NAME }} \
+              --zip-file fileb://function.zip
+
+          else
+
+            aws lambda create-function \
+              --function-name ${{ env.LAMBDA_NAME }} \
+              --zip-file fileb://function.zip \
+              --role arn:aws:iam::350469506175:role/service-role/calculator-app-role-7swjqypm \
+              --handler calculator.lambda_handler \
+              --runtime python3.13
+
+          fi
+
 
