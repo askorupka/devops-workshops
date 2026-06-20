@@ -73,6 +73,7 @@ jobs:
             --function-name ${{ env.LAMBDA_NAME }} \
             --zip-file fileb://function.zip \
             --role arn:aws:iam::350469506175:role/service-role/calculator-app-role-7swjqypm \
+            --handler calculator.lambda_handler \
             --runtime python3.13
 
       - name: Update Lambda code
