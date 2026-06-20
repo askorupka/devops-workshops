@@ -6,6 +6,9 @@ def divide(a, b):
     return a / b
 
 
+def multiply(a, b):
+    return a * b
+
 def lambda_handler(event, context):
     # Function URL / API Gateway
     if "body" in event:
