@@ -53,11 +53,23 @@ jobs:
 
     steps:
 
-      - name: Checkout repository
-        uses: actions/checkout@v5
+      # - name: Checkout repository
+      #   uses: actions/checkout@v5
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::350469506175:role/github-actions-lambda-deploy-role
           aws-region: eu-central-1
+
+      - name: Prepare Lambda package
+        run: |
+          cp app/calculator.py lambda_function.py
+          zip function.zip lambda_function.py
+      
+      - name: Update Lambda code
+        run: |
+          aws lambda update-function-code \
+            --function-name calculator-app
+            --zip-file function.zip
+
