@@ -48,6 +48,10 @@ jobs:
     permissions:
       id-token: write
 
+    env:
+      AWS_REGION: eu-central-1
+      LAMBDA_NAME: calculator-app
+
     steps:
 
       - name: Checkout repository
@@ -62,10 +66,16 @@ jobs:
       - name: Prepare Lambda package
         run: |
           zip function.zip app/calculator.py
-      
+
+      - name: Create Lambda
+        run: |
+          aws lambda create-function \
+            --function-name ${{ env.LAMBDA_NAME }} \
+            --zip-file fileb://function.zip
+
       - name: Update Lambda code
         run: |
           aws lambda update-function-code \
-            --function-name calculator-app \
+            --function-name ${{ env.LAMBDA_NAME }} \
             --zip-file fileb://function.zip
 
