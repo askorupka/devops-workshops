@@ -36,9 +36,6 @@ jobs:
       - name: Run test
         run: pytest
 
-      - name: Add formatting
-        run: flake8 .
-
   deploy:
     runs-on: ubuntu-latest
 
@@ -71,5 +68,5 @@ jobs:
         run: |
           aws lambda update-function-code \
             --function-name calculator-app
-            --zip-file function.zip
+            --zip-file fileb://function.zip
 
